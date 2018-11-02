@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'NotificationView_Example' do
+  pod 'NotificationView', :path => '../'
+
+  target 'NotificationView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

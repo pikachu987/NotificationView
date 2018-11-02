@@ -1,0 +1,6 @@
+framework module NotificationView {
+  umbrella header "NotificationView-umbrella.h"
+
+  export *
+  module * { export * }
+}
