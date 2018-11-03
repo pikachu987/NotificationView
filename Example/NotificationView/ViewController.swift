@@ -7,12 +7,20 @@
 //
 
 import UIKit
+import NotificationView
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        let notificationView = NotificationView("가나다라")
+        notificationView.delegate = self
+        notificationView.show()
+        
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,3 +30,6 @@ class ViewController: UIViewController {
 
 }
 
+extension ViewController: NotificationViewDelegate {
+    
+}

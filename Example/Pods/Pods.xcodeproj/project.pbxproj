@@ -16,7 +16,10 @@
 		A6C0B07E87BF0F591CBF0DF18B8968C6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A16F4CFC63FAC439D7A04994F579A03 /* Foundation.framework */; };
 		BF13561EDCB7495D4171E6F7682C1E20 /* NotificationView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F69AFFB64B2D89ECC7AFC8C52FB48EF8 /* NotificationView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C1342E2E4EC5493374AFAB39968717AC /* Pods-NotificationView_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A447CCA85CA60244E490E0682227EC98 /* Pods-NotificationView_Example-dummy.m */; };
-		EAD151EE2A49EEB0AFC77CBE83930417 /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1F5815BCC57FC77C28867F11D72EE5 /* ReplaceMe.swift */; };
+		E017C197218C821700B87FB6 /* NotificationBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E017C195218C821600B87FB6 /* NotificationBannerView.swift */; };
+		E017C198218C821700B87FB6 /* NotificationTextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E017C196218C821700B87FB6 /* NotificationTextContainerView.swift */; };
+		E069B4A6218D85D600CB65AE /* Extensions+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E069B4A5218D85D600CB65AE /* Extensions+.swift */; };
+		EAD151EE2A49EEB0AFC77CBE83930417 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1F5815BCC57FC77C28867F11D72EE5 /* NotificationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,9 +67,12 @@
 		B11B56CDB0EA166E155B0AC8AEB8E524 /* Pods-NotificationView_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-NotificationView_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B5E94E91D0E88B73B43A251B6C40DD50 /* Pods-NotificationView_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-NotificationView_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B6B4C1EC4CFC9D0837E7F41420BBC0C6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CF1F5815BCC57FC77C28867F11D72EE5 /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReplaceMe.swift; path = NotificationView/Classes/ReplaceMe.swift; sourceTree = "<group>"; };
+		CF1F5815BCC57FC77C28867F11D72EE5 /* NotificationView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NotificationView.swift; path = NotificationView/Classes/NotificationView.swift; sourceTree = "<group>"; };
 		D1A29AE586993A0A8D158763A00939F8 /* Pods_NotificationView_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotificationView_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEEF960333DF8A46F2C5B77B0FB5D18F /* Pods-NotificationView_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-NotificationView_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		E017C195218C821600B87FB6 /* NotificationBannerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationBannerView.swift; path = NotificationView/Classes/NotificationBannerView.swift; sourceTree = "<group>"; };
+		E017C196218C821700B87FB6 /* NotificationTextContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTextContainerView.swift; path = NotificationView/Classes/NotificationTextContainerView.swift; sourceTree = "<group>"; };
+		E069B4A5218D85D600CB65AE /* Extensions+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extensions+.swift"; path = "NotificationView/Classes/Extensions+.swift"; sourceTree = "<group>"; };
 		F3EA0E40DE56C645D737992A3CC119BA /* Pods-NotificationView_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-NotificationView_Example.modulemap"; sourceTree = "<group>"; };
 		F69AFFB64B2D89ECC7AFC8C52FB48EF8 /* NotificationView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NotificationView-umbrella.h"; sourceTree = "<group>"; };
 		F6F54152C465EA8E8F3E776A1DFB5F7F /* Pods-NotificationView_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-NotificationView_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -185,7 +191,10 @@
 		A0F9F39908583CB392ADEF2BF192AB38 /* NotificationView */ = {
 			isa = PBXGroup;
 			children = (
-				CF1F5815BCC57FC77C28867F11D72EE5 /* ReplaceMe.swift */,
+				CF1F5815BCC57FC77C28867F11D72EE5 /* NotificationView.swift */,
+				E017C195218C821600B87FB6 /* NotificationBannerView.swift */,
+				E017C196218C821700B87FB6 /* NotificationTextContainerView.swift */,
+				E069B4A5218D85D600CB65AE /* Extensions+.swift */,
 				712DD3BE291A44F43023A97B4C2AD2BB /* Pod */,
 				28B8DFF6587062973E51B54C81391919 /* Support Files */,
 			);
@@ -344,7 +353,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				103759AE94A3598ED94B24B5EA84758F /* NotificationView-dummy.m in Sources */,
-				EAD151EE2A49EEB0AFC77CBE83930417 /* ReplaceMe.swift in Sources */,
+				E017C198218C821700B87FB6 /* NotificationTextContainerView.swift in Sources */,
+				E069B4A6218D85D600CB65AE /* Extensions+.swift in Sources */,
+				EAD151EE2A49EEB0AFC77CBE83930417 /* NotificationView.swift in Sources */,
+				E017C197218C821700B87FB6 /* NotificationBannerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
