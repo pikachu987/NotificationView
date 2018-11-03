@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NotificationView'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'iOS Notification View'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,12 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-Quick Notification View
+You can easily implement iOS Basic Notification screens.
+There is a default theme and a dark theme.
+You can attach an image to the Notification screen with only the UIImageView.
+You can adjust the disappearance time.
+You can get a delegate or callback for the visible and disappearing states.
+You can get delegates and callbacks for tap.
                        DESC
 
   s.homepage         = 'https://github.com/pikachu987/NotificationView'
