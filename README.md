@@ -30,7 +30,7 @@ You can get delegates and callbacks for tap.
 
 ## Screen
 
-||iPhoneSE|iPhone8Plus|iPhoneX|iPad|
+|-|iPhoneSE|iPhone8Plus|iPhoneX|iPad|
 |---|---|---|---|---|---|
 |Vertical|![demo](./Etc/screen_se_vertical.png)|![demo](./Etc/screen_8P_vertical.png)|![demo](./Etc/screen_X_vertical.png)|![demo](./Etc/screen_pad_vertical.png)|
 |Horizontal|![demo](./Etc/screen_se_horizontal.png)|![demo](./Etc/screen_8P_horizontal.png)|![demo](./Etc/screen_X_horizontal.png)|![demo](./Etc/screen_pad_horizontal.png)|
