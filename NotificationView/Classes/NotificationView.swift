@@ -24,15 +24,15 @@ import UIKit
  It conveys the state change and touch of the NotificationView.
  */
 public protocol NotificationViewDelegate: class {
-    // Called when NotificationView is willAppear.
+    /// Called when NotificationView is willAppear.
     func notificationViewWillAppear(_ notificationView: NotificationView)
-    // Called when NotificationView is didAppear.
+    /// Called when NotificationView is didAppear.
     func notificationViewDidAppear(_ notificationView: NotificationView)
-    // Called when NotificationView is willDisappear.
+    /// Called when NotificationView is willDisappear.
     func notificationViewWillDisappear(_ notificationView: NotificationView)
-    // Called when NotificationView is didDisappear.
+    /// Called when NotificationView is didDisappear.
     func notificationViewDidDisappear(_ notificationView: NotificationView)
-    // Called when the NotificationView is touched.
+    /// Called when the NotificationView is touched.
     func notificationViewDidTap(_ notificationView: NotificationView)
 }
 
@@ -45,12 +45,15 @@ public extension NotificationViewDelegate {
 }
 
 /*
- NotificationViewState
+ Status of the NotificationView.
  */
 public enum NotificationViewState {
     case willAppear, didAppear, willDisappear, didDisappear, tap
 }
 
+/*
+ Theme for NotificationView.
+ */
 public enum NotificationViewTheme {
     case `default`, dark
     
@@ -75,21 +78,34 @@ public enum NotificationViewTheme {
 }
 
 public class NotificationView: NSObject {
+    
+    // MARK: delegate
+    
+    /// Connect the delegate to detect when the NotificationView touches or changes state
     public weak var delegate: NotificationViewDelegate?
     
+    
+    // MARK: default
+    
+    /// The default View for NotificationView. Since it is static, you can call it anywhere.
     public static let `default` = NotificationView()
     
-    public var colorType: NotificationViewTheme = NotificationViewTheme.default {
+    
+    // MARK: Public Properties
+    
+    /// Theme for NotificationView. There are dark mode and default mode.
+    public var theme: NotificationViewTheme = NotificationViewTheme.default {
         willSet {
-            self.backgroundColor = self.colorType.backgroundColor
-            self.appNameLabel.textColor = self.colorType.appNameColor
-            self.dateLabel.textColor = self.colorType.dateColor
-            self.titleLabel.textColor = self.colorType.titleColor
-            self.subtitleLabel.textColor = self.colorType.subtitleColor
-            self.bodyLabel.textColor = self.colorType.bodyColor
+            self.backgroundColor = self.theme.backgroundColor
+            self.appNameLabel.textColor = self.theme.appNameColor
+            self.dateLabel.textColor = self.theme.dateColor
+            self.titleLabel.textColor = self.theme.titleColor
+            self.subtitleLabel.textColor = self.theme.subtitleColor
+            self.bodyLabel.textColor = self.theme.bodyColor
         }
     }
     
+    /// The time at the top right of NotificationView.
     public var date: String? {
         set {
             self.dateLabel.text = newValue
@@ -99,6 +115,7 @@ public class NotificationView: NSObject {
         }
     }
     
+    /// The title of the NotificationView.
     public var title: String? {
         set {
             self.bannerView.textContainerView.title = newValue
@@ -107,6 +124,8 @@ public class NotificationView: NSObject {
             return self.bannerView.textContainerView.title
         }
     }
+    
+    /// The subtitle of the NotificationView.
     public var subtitle: String? {
         set {
             self.bannerView.textContainerView.subtitle = newValue
@@ -115,6 +134,8 @@ public class NotificationView: NSObject {
             return self.bannerView.textContainerView.subtitle
         }
     }
+    
+    /// The body of the NotificationView.
     public var body: String? {
         set {
             self.bannerView.textContainerView.body = newValue
@@ -123,6 +144,8 @@ public class NotificationView: NSObject {
             return self.bannerView.textContainerView.body
         }
     }
+    
+    /// The image of the NotificationView.
     public var image: UIImage? {
         set {
             self.bannerView.textContainerView.image = newValue
@@ -131,10 +154,8 @@ public class NotificationView: NSObject {
             return self.bannerView.textContainerView.image
         }
     }
-    public var param: [AnyHashable : Any]?
-    public var identifier = ""
-    public var hideDuration: TimeInterval = 7
     
+    /// The background color of the NotificationView.
     public var backgroundColor: UIColor? {
         set {
             self.bannerView.containerView.backgroundColor = newValue
@@ -144,48 +165,75 @@ public class NotificationView: NSObject {
         }
     }
     
+    /// It is a dictionary that can contain any data.
+    public var param: [AnyHashable : Any]?
+    
+    /// The identifier for the NotificationView.
+    public var identifier = ""
+    
+    /// The time until the NotificationView is shown and then disappears.
+    public var hideDuration: TimeInterval = 7
+    
+    /// An UIImageView that displays the AppIcon image.
     public var iconImageView: UIImageView {
         return self.bannerView.iconImageView
     }
     
+    /// An UILabel that displays the AppName text.
     public var appNameLabel: UILabel {
         return self.bannerView.appNameLabel
     }
     
+    /// An UILabel that displays the Date text.
     public var dateLabel: UILabel {
         return self.bannerView.dateLabel
     }
     
+    /// An UILabel that displays the Title text.
     public var titleLabel: UILabel {
         return self.bannerView.textContainerView.titleLabel
     }
     
+    /// An UILabel that displays the Subtitle text.
     public var subtitleLabel: UILabel {
         return self.bannerView.textContainerView.subtitleLabel
     }
     
+    /// An UILabel that displays the Body text.
     public var bodyLabel: UILabel {
         return self.bannerView.textContainerView.bodyLabel
     }
     
+    /// An UIImageView that displays the Image.
     public var imageView: UIImageView {
         return self.bannerView.textContainerView.imageView
     }
     
-    private let bannerView = NotificationBannerView(frame: UIApplication.shared.keyWindow?.frame ?? .zero)
     
+    // MARK: Private Properties
+    
+    /// NotificationBannerView
+    private lazy var bannerView: NotificationBannerView = {
+        return NotificationBannerView(self)
+    }()
+    
+    /// Callback function passing NotificationViewState
+    private var handler: ((NotificationViewState) -> Void)?
+    
+    /// NotificationView Top Margin Value
     static var topHeight: CGFloat {
         return max(UIApplication.shared.statusBarFrame.height, 20)
     }
     
-    private var handler: ((NotificationViewState) -> Void)?
+    
+    // MARK: Life Cycle
     
     public override init() {
         super.init()
         self.bannerView.delegate = self
     }
     
-    public init(_ title: String, subtitle: String? = nil, body: String? = nil, image: UIImage? = nil, param: [AnyHashable : Any]? = nil, identifier: String = "") {
+    public init(_ title: String?, subtitle: String? = nil, body: String? = nil, image: UIImage? = nil, param: [AnyHashable : Any]? = nil, identifier: String = "") {
         super.init()
         self.bannerView.delegate = self
         self.title = title
@@ -196,8 +244,27 @@ public class NotificationView: NSObject {
         self.identifier = identifier
     }
     
-    public func show(_ duration: TimeInterval = 0, handler: ((NotificationViewState) -> Void)? = nil) {
+    
+    // MARK: Public Method
+    
+    /**
+     A NotificationView is show.
+     - Parameters:
+     - handler: Callbacks to get NotificationViewState
+     */
+    public func show(_ handler: ((NotificationViewState) -> Void)? = nil) {
+        self.showAfter(0, handler: handler)
+    }
+    
+    /**
+     A NotificationView is show.
+     - Parameters:
+     - duration: Displayed after duration
+     - handler: Callbacks to get NotificationViewState
+     */
+    public func showAfter(_ duration: TimeInterval, handler: ((NotificationViewState) -> Void)? = nil) {
         self.handler = handler
+        self.bannerView.theme = self.theme
         self.bannerView.setEntity(self.hideDuration)
         if self.bannerView.superview != nil { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
@@ -230,12 +297,26 @@ public class NotificationView: NSObject {
         }
     }
     
+    /**
+     A NotificationView is hide.
+     */
     public func hide() {
-        self.bannerView.hide()
+        self.hideAfter(0)
+    }
+    
+    /**
+     A NotificationView is hide.
+     - Parameters:
+     - duration: After duration, it disappears.
+     */
+    public func hideAfter(_ duration: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            self.bannerView.hide()
+        }
     }
 }
 
-// MARK: BannerViewDelegate
+// MARK: NotificationBannerViewDelegate
 extension NotificationView: NotificationBannerViewDelegate {
     func notificationBannerViewDidDisappear(_ notificationBannerView: NotificationBannerView) {
         self.delegate?.notificationViewDidDisappear(self)

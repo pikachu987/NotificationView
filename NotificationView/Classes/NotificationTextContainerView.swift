@@ -20,7 +20,11 @@
 
 import UIKit
 
+// NotificationTextContainerView
 class NotificationTextContainerView: UIView {
+    
+    // MARK: Lazy Properties
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         self.addSubview(label)
@@ -94,10 +98,17 @@ class NotificationTextContainerView: UIView {
         return imageView
     }()
     
+    
+    // MARK: Private Properties
+    
     private var titleHeightConstriant: NSLayoutConstraint?
+    
     private var subtitleHeightConstriant: NSLayoutConstraint?
+    
     private var bodyHeightConstriant: NSLayoutConstraint?
+    
     private var titleTrailingHeightConstriant: NSLayoutConstraint?
+    
     private var imageWidthHeightConstriant: NSLayoutConstraint?
     
     private var labelWidth: CGFloat {
@@ -105,6 +116,9 @@ class NotificationTextContainerView: UIView {
         if self.image != nil { width -= 52 }
         return width
     }
+    
+    
+    // MARK: Properties
     
     var title: String? {
         set {
@@ -175,6 +189,16 @@ class NotificationTextContainerView: UIView {
         return max(height, imageHeight)
     }
     
+    var theme: NotificationViewTheme = .default {
+        willSet {
+            self.titleLabel.textColor = newValue.titleColor
+            self.subtitleLabel.textColor = newValue.subtitleColor
+            self.bodyLabel.textColor = newValue.bodyColor
+        }
+    }
+    
+    // MARK: Life Cycle
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.initVars()
@@ -189,6 +213,9 @@ class NotificationTextContainerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    // MAKR: Private Method
+    
     private func initVars() {
         self.titleLabel.text = nil
         self.titleLabel.font = UIFont.boldSystemFont(ofSize: 15)
@@ -201,7 +228,7 @@ class NotificationTextContainerView: UIView {
         self.bodyLabel.textColor = NotificationViewTheme.default.bodyColor
         self.bodyLabel.numberOfLines = 2
         
-        self.imageView.contentMode = .scaleToFill
+        self.imageView.contentMode = .scaleAspectFill
         self.imageView.clipsToBounds = true
         self.imageView.layer.cornerRadius = 4
         self.image = self.imageView.image

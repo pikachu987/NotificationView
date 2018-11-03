@@ -20,6 +20,7 @@
 
 import UIKit
 
+// NotificationBannerViewDelegate
 protocol NotificationBannerViewDelegate: class {
     func notificationBannerViewWillDisappear(_ notificationBannerView: NotificationBannerView)
     func notificationBannerViewDidDisappear(_ notificationBannerView: NotificationBannerView)
@@ -27,12 +28,20 @@ protocol NotificationBannerViewDelegate: class {
 }
 
 
+// NotificationBannerView
 class NotificationBannerView: UIView {
+    
+    // MARK: deinit
     deinit {
         NotificationCenter.default.removeObserver(self, name: Notification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
+    
+    // MARK: delegate
     weak var delegate: NotificationBannerViewDelegate?
+    
+    
+    // MARK: Lazy Properties
     
     lazy var containerView: UIView = {
         let view = UIView()
@@ -127,6 +136,22 @@ class NotificationBannerView: UIView {
         return view
     }()
     
+    
+    // MARK: Properties
+    
+    var theme: NotificationViewTheme = .default {
+        willSet {
+            self.containerView.backgroundColor = newValue.backgroundColor
+            self.appNameLabel.textColor = newValue.appNameColor
+            self.dateLabel.textColor = newValue.dateColor
+            self.textContainerView.theme = newValue
+        }
+    }
+    
+    var height: CGFloat {
+        return self.textContainerView.height + 58.5
+    }
+    
     private var logoImage: UIImage? = {
         guard let iconsDictionary = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any],
             let primaryIconsDictionary = iconsDictionary["CFBundlePrimaryIcon"] as? [String: Any],
@@ -135,13 +160,9 @@ class NotificationBannerView: UIView {
         return UIImage(named: lastIcon)
     }()
     
-    private var appName: String? {
+    private var appName: String? = {
         return (Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String) ?? Bundle.main.infoDictionary?["CFBundleName"] as? String
-    }
-    
-    var height: CGFloat {
-        return self.textContainerView.height + 58.5
-    }
+    }()
     
     private var topConstraint: NSLayoutConstraint? {
         return self.superview?.constraints.filter({
@@ -151,15 +172,20 @@ class NotificationBannerView: UIView {
     }
     
     private var timer: Timer?
+    
     private var hideDuration: TimeInterval = 7
+    
     private weak var widthConstraint: NSLayoutConstraint?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var notificationView: NotificationView?
+    
+    // MARK: Life Cycle
+    init(_ notificationView: NotificationView) {
+        self.notificationView = notificationView
+        super.init(frame: UIApplication.shared.keyWindow?.frame ?? .zero)
         
         self.backgroundColor = .clear
         
-        self.containerView.backgroundColor = NotificationViewTheme.default.backgroundColor
         self.containerView.layer.cornerRadius = 12
         self.containerView.layer.borderWidth = 0.1
         self.containerView.layer.borderColor = UIColor(white: 253/255, alpha: 0.8).cgColor
@@ -169,13 +195,12 @@ class NotificationBannerView: UIView {
         self.iconImageView.layer.cornerRadius = 4
         
         self.appNameLabel.font = UIFont.systemFont(ofSize: 14)
-        self.appNameLabel.textColor = NotificationViewTheme.default.appNameColor
         
         self.dateLabel.font = UIFont.systemFont(ofSize: 12)
-        self.dateLabel.textColor = NotificationViewTheme.default.dateColor
         self.dateLabel.textAlignment = .right
         
         self.textContainerView.backgroundColor = .clear
+        self.theme = notificationView.theme
         
         self.bottomView.backgroundColor = UIColor(white: 215/255, alpha: 1)
         self.bottomView.layer.cornerRadius = 1.5
@@ -224,10 +249,13 @@ class NotificationBannerView: UIView {
         }
     }
     
+    // MARK: Method
+    
     func setEntity(_ hideDuration: TimeInterval) {
         self.hideDuration = hideDuration
         self.iconImageView.image = self.logoImage
         self.appNameLabel.text = self.appName
+        
         self.makeShadow()
         
         self.timer?.invalidate()
@@ -245,8 +273,12 @@ class NotificationBannerView: UIView {
         }) { (_) in
             self.delegate?.notificationBannerViewDidDisappear(self)
             self.removeFromSuperview()
+            self.notificationView = nil
         }
     }
+    
+    
+    // MARK: Private Method
     
     @objc private func hideAction(_ sender: Timer) {
         self.hide()
