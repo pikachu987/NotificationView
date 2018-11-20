@@ -33,7 +33,7 @@ class NotificationBannerView: UIView {
     
     // MARK: deinit
     deinit {
-        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     
@@ -210,7 +210,7 @@ class NotificationBannerView: UIView {
         self.addConstraint(widthConstraint)
         self.widthConstraint = widthConstraint
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationDidChange(_:)), name: Notification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.orientationDidChange(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

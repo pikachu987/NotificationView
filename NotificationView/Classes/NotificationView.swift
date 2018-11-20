@@ -58,7 +58,7 @@ public enum NotificationViewTheme {
     case `default`, dark
     
     var backgroundColor: UIColor {
-        return self == .default ? UIColor(white: 253/255, alpha: 0.95) : UIColor(white: 3/255, alpha: 0.95)
+        return self == .default ? UIColor(white: 253/255, alpha: 0.98) : UIColor(white: 3/255, alpha: 0.98)
     }
     var appNameColor: UIColor {
         return self == .default ? UIColor(white: 80/255, alpha: 1) : UIColor(white: 220/255, alpha: 1)
