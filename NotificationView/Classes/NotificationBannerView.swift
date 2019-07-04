@@ -141,9 +141,15 @@ class NotificationBannerView: UIView {
     
     var theme: NotificationViewTheme = .default {
         willSet {
-            self.containerView.backgroundColor = newValue.backgroundColor
-            self.appNameLabel.textColor = newValue.appNameColor
-            self.dateLabel.textColor = newValue.dateColor
+            if let color = newValue.backgroundColor {
+                self.containerView.backgroundColor = color
+            }
+            if let color = newValue.appNameColor {
+                self.appNameLabel.textColor = color
+            }
+            if let color = newValue.dateColor {
+                self.dateLabel.textColor = color
+            }
             self.textContainerView.theme = newValue
         }
     }

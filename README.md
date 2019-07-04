@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/cocoapods/v/NotificationView.svg?style=flat)](https://cocoapods.org/pods/NotificationView)
 [![License](https://img.shields.io/cocoapods/l/NotificationView.svg?style=flat)](https://cocoapods.org/pods/NotificationView)
 [![Platform](https://img.shields.io/cocoapods/p/NotificationView.svg?style=flat)](https://cocoapods.org/pods/NotificationView)
-[![Swift 4.2](https://img.shields.io/badge/Swift-4.2-orange.svg?style=flat)](https://developer.apple.com/swift/)
+[![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://developer.apple.com/swift/)
 
 ## Introduce
 
@@ -56,13 +56,17 @@ You can get delegates and callbacks for tap.
 
 ## Requirements
 
-`NotificationView` written in Swift 4.2. Compatible with iOS 8.0+
+`NotificationView` written in Swift 5.0. Compatible with iOS 8.0+
 
 ## Installation
 
 ### Versioning notes
 
-Version 0.1.1 introduces Swift 4 support, 0.2.0 Swift 4.2.
+Version 0.2.1 introduces Swift 5.0 support
+
+Version 0.2.0 introduces Swift 4.2 support
+
+Version 0.1.1 introduces Swift 4.0 support
 
 NotificationView is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
@@ -110,7 +114,7 @@ NotificationView
 
 ```swift
 
-//Theme for NotificationView. There are dark mode and default mode.
+//Theme for NotificationView. There are dark mode and default mode and custom mode.
 notificationView.theme
 
 //The time at the top right of NotificationView.
@@ -255,6 +259,26 @@ extension ViewController: NotificationViewDelegate {
     }
 }
 
+```
+
+### Custom
+
+```swift
+let notificationView = NotificationView()
+notificationView.title = title
+notificationView.subtitle = subtitle
+notificationView.body = body
+notificationView.image = image
+
+notificationView.theme = .custom
+notificationView.backgroundColor = .red
+notificationView.appNameLabel.textColor = .blue
+notificationView.dateLabel.textColor = .blue
+notificationView.titleLabel.textColor = .blue
+notificationView.subtitleLabel.textColor = .blue
+notificationView.bodyLabel.textColor = .blue
+
+notificationView.show()
 ```
 
 <br><br>

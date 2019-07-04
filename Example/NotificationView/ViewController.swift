@@ -85,6 +85,13 @@ class ViewController: UIViewController {
         notificationView.image = image
         notificationView.hideDuration = TimeInterval(self.durationSlider.value)
         notificationView.theme = self.themeSwitch.isOn ? .default : .dark
+//        notificationView.theme = .custom
+//        notificationView.backgroundColor = .red
+//        notificationView.appNameLabel.textColor = .blue
+//        notificationView.dateLabel.textColor = .blue
+//        notificationView.titleLabel.textColor = .blue
+//        notificationView.subtitleLabel.textColor = .blue
+//        notificationView.bodyLabel.textColor = .blue
         notificationView.delegate = self
         notificationView.show()
     }

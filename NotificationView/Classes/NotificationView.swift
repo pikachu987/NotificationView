@@ -55,25 +55,69 @@ public enum NotificationViewState {
  Theme for NotificationView.
  */
 public enum NotificationViewTheme {
-    case `default`, dark
+    case `default`
+    case dark
+    case custom
     
-    var backgroundColor: UIColor {
-        return self == .default ? UIColor(white: 253/255, alpha: 0.98) : UIColor(white: 3/255, alpha: 0.98)
+    var backgroundColor: UIColor? {
+        switch self {
+        case .default:
+            return UIColor(white: 253/255, alpha: 0.98)
+        case .dark:
+            return UIColor(white: 3/255, alpha: 0.98)
+        default:
+            return nil
+        }
     }
-    var appNameColor: UIColor {
-        return self == .default ? UIColor(white: 80/255, alpha: 1) : UIColor(white: 220/255, alpha: 1)
+    var appNameColor: UIColor? {
+        switch self {
+        case .default:
+            return UIColor(white: 80/255, alpha: 1)
+        case .dark:
+            return UIColor(white: 220/255, alpha: 1)
+        default:
+            return nil
+        }
     }
-    var dateColor: UIColor {
-        return self == .default ? UIColor(white: 110/255, alpha: 1) : UIColor(white: 180/255, alpha: 1)
+    var dateColor: UIColor? {
+        switch self {
+        case .default:
+            return UIColor(white: 110/255, alpha: 1)
+        case .dark:
+            return UIColor(white: 180/255, alpha: 1)
+        default:
+            return nil
+        }
     }
-    var titleColor: UIColor {
-        return self == .default ? UIColor.black : UIColor.white
+    var titleColor: UIColor? {
+        switch self {
+        case .default:
+            return UIColor.black
+        case .dark:
+            return UIColor.white
+        default:
+            return nil
+        }
     }
-    var subtitleColor: UIColor {
-        return self == .default ? UIColor.black : UIColor.white
+    var subtitleColor: UIColor? {
+        switch self {
+        case .default:
+            return UIColor.black
+        case .dark:
+            return UIColor.white
+        default:
+            return nil
+        }
     }
-    var bodyColor: UIColor {
-        return self == .default ? UIColor.black : UIColor.white
+    var bodyColor: UIColor? {
+        switch self {
+        case .default:
+            return UIColor.black
+        case .dark:
+            return UIColor.white
+        default:
+            return nil
+        }
     }
 }
 

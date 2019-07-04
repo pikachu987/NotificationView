@@ -191,9 +191,15 @@ class NotificationTextContainerView: UIView {
     
     var theme: NotificationViewTheme = .default {
         willSet {
-            self.titleLabel.textColor = newValue.titleColor
-            self.subtitleLabel.textColor = newValue.subtitleColor
-            self.bodyLabel.textColor = newValue.bodyColor
+            if let color = newValue.titleColor {
+                self.titleLabel.textColor = color
+            }
+            if let color = newValue.subtitleColor {
+                self.subtitleLabel.textColor = color
+            }
+            if let color = newValue.bodyColor {
+                self.bodyLabel.textColor = color
+            }
         }
     }
     

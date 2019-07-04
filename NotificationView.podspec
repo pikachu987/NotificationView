@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NotificationView'
-  s.version          = '0.2.0'
+  s.version          = '0.2.1'
   s.summary          = 'iOS Notification View'
 
 # This description is used to generate tags and improve search results.
@@ -36,7 +36,7 @@ You can get delegates and callbacks for tap.
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'NotificationView/Classes/**/*'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 
   # s.resource_bundles = {
   #   'NotificationView' => ['NotificationView/Assets/*.png']
