@@ -22,7 +22,7 @@ import UIKit
 import NotificationView
 
 class ViewController: UIViewController {
-
+    @IBOutlet private weak var isHeaderSwitch: UISwitch!
     @IBOutlet private weak var titleTextField: UITextField!
     @IBOutlet private weak var subtitleTextField: UITextField!
     @IBOutlet private weak var bodyTextField: UITextField!
@@ -66,6 +66,7 @@ class ViewController: UIViewController {
         let image = self.imageSwitch.isOn ? UIImage(named: "image.png") : nil
         let notificationView = NotificationView(title, subtitle: subtitle, body: body, image: image)
         notificationView.delegate = self
+        notificationView.isHeader = self.isHeaderSwitch.isOn
         notificationView.hideDuration = TimeInterval(self.durationSlider.value)
         notificationView.theme = self.themeSwitch.isOn ? .default : .dark
         notificationView.show { (state) in
@@ -74,11 +75,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction private func defaultNotificationTap(_ sender: UIButton) {
-        guard let title = self.titleTextField.text,
+        guard
+            let title = self.titleTextField.text,
             let subtitle = self.subtitleTextField.text,
             let body = self.bodyTextField.text else { return }
         let image = self.imageSwitch.isOn ? UIImage(named: "image.png") : nil
         let notificationView = NotificationView.default
+        notificationView.isHeader = self.isHeaderSwitch.isOn
         notificationView.title = title
         notificationView.subtitle = subtitle
         notificationView.body = body
@@ -92,6 +95,9 @@ class ViewController: UIViewController {
 //        notificationView.titleLabel.textColor = .blue
 //        notificationView.subtitleLabel.textColor = .blue
 //        notificationView.bodyLabel.textColor = .blue
+//        notificationView.appName = "Test"
+//        notificationView.appIcon = UIImage(named: "image.png")
+//        notificationView.date = "2020.01.01"
         notificationView.delegate = self
         notificationView.show()
     }

@@ -30,3 +30,90 @@ extension UILabel {
         return label.frame.height
     }
 }
+
+extension NSLayoutConstraint {
+    enum Identifier: String {
+        case top = "top"
+        case bottom = "bottom"
+        case leading = "leading"
+        case trailing = "trailing"
+        case centerX = "centerX"
+        case centerY = "centerY"
+        case left = "left"
+        case right = "right"
+        case width = "width"
+        case height = "height"
+    }
+    
+    @discardableResult
+    func priority(_ rawValue: Float) -> NSLayoutConstraint {
+        self.priority = UILayoutPriority(rawValue)
+        return self
+    }
+    
+    @discardableResult
+    func identifier(_ identifier: String) -> NSLayoutConstraint {
+        self.identifier = identifier
+        return self
+    }
+    
+    @discardableResult
+    func identifier(_ identifier: Identifier) -> NSLayoutConstraint {
+        self.identifier = identifier.rawValue
+        return self
+    }
+    
+    func equalIdentifier(_ identifier: String) -> Bool {
+        guard let value = self.identifier else { return false }
+        return value == identifier
+    }
+    
+    func equalIdentifier(_ identifier: Identifier) -> Bool {
+        guard let value = self.identifier else { return false }
+        return value == identifier.rawValue
+    }
+}
+
+extension UIView {
+    @discardableResult
+    func removeConstraint(_ identifier: String) -> NSLayoutConstraint? {
+        if let constraint = self.constraints.identifier(identifier) {
+            self.removeConstraint(constraint)
+            return constraint
+        } else {
+            return nil
+        }
+    }
+    
+    @discardableResult
+    func removeConstraint(_ identifier: NSLayoutConstraint.Identifier) -> NSLayoutConstraint? {
+        if let constraint = self.constraints.identifier(identifier) {
+            self.removeConstraint(constraint)
+            return constraint
+        } else {
+           return nil
+       }
+    }
+    
+    func constraints(identifierType: NSLayoutConstraint.Identifier) -> [NSLayoutConstraint] {
+        return self.constraints(identifier: identifierType.rawValue)
+    }
+    
+    func constraints(identifier: String) -> [NSLayoutConstraint] {
+        let constraint = self.constraints.compactMap { (constraint) -> NSLayoutConstraint? in
+            guard let constraintIdentifier = constraint.identifier, constraintIdentifier == identifier else { return nil }
+            return constraint
+        }
+        return constraint
+    }
+}
+
+extension Array where Element == NSLayoutConstraint {
+    func identifier(_ identifier: String) -> NSLayoutConstraint? {
+        return self.filter({ $0.equalIdentifier(identifier) }).first
+    }
+    
+    func identifier(_ identifier: NSLayoutConstraint.Identifier) -> NSLayoutConstraint? {
+        return self.filter({ $0.equalIdentifier(identifier) }).first
+    }
+}

@@ -149,15 +149,15 @@ public class NotificationView: NSObject {
         }
     }
     
-    /// The time at the top right of NotificationView.
-    public var date: String? {
-        set {
-            self.dateLabel.text = newValue
-        }
-        get {
-            return self.dateLabel.text
+    public var isHeader: Bool = true {
+        didSet {
+            self.bannerView.isHeader = self.isHeader
         }
     }
+    
+    public var date: String?
+    public var appName: String?
+    public var appIcon: UIImage?
     
     /// The title of the NotificationView.
     public var title: String? {
@@ -309,26 +309,29 @@ public class NotificationView: NSObject {
     public func showAfter(_ duration: TimeInterval, handler: ((NotificationViewState) -> Void)? = nil) {
         self.handler = handler
         self.bannerView.theme = self.theme
-        self.bannerView.setEntity(self.hideDuration)
-        if self.bannerView.superview != nil { return }
+        self.bannerView.setEntity(self.hideDuration, appName: self.appName, appIcon: self.appIcon, date: self.date)
+        if self.bannerView.superview != nil {
+            if self.bannerView.frame.origin.y < -10 {
+                self.bannerView.hide(animated: false)
+            } else {
+                return
+            }
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             guard let window = UIApplication.shared.keyWindow else { return }
             self.delegate?.notificationViewWillAppear(self)
             self.handler?(.willAppear)
             window.addSubview(self.bannerView)
             self.bannerView.translatesAutoresizingMaskIntoConstraints = false
-            let leadingConstraint = NSLayoutConstraint(item: window, attribute: .leading, relatedBy: .equal, toItem: self.bannerView, attribute: .leading, multiplier: 1, constant: -6)
-            let trailingConstraint = NSLayoutConstraint(item: window, attribute: .trailing, relatedBy: .equal, toItem: self.bannerView, attribute: .trailing, multiplier: 1, constant: 6)
-            leadingConstraint.priority = UILayoutPriority(950)
-            trailingConstraint.priority = UILayoutPriority(950)
-            let centerXConstraint = NSLayoutConstraint(item: window, attribute: .centerX, relatedBy: .equal, toItem: self.bannerView, attribute: .centerX, multiplier: 1, constant: 0)
             
-            let topConstraint = NSLayoutConstraint(item: window, attribute: .top, relatedBy: .equal, toItem: self.bannerView, attribute: .top, multiplier: 1, constant: self.bannerView.height)
-            topConstraint.priority = UILayoutPriority(950)
-            let topLimitConstraint = NSLayoutConstraint(item: window, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: self.bannerView, attribute: .top, multiplier: 1, constant: -NotificationView.topHeight)
+            let topConstraint = NSLayoutConstraint(item: window, attribute: .top, relatedBy: .equal, toItem: self.bannerView, attribute: .top, multiplier: 1, constant: self.bannerView.height).priority(950).identifier(.top)
             window.addConstraints([
-                leadingConstraint, trailingConstraint, topConstraint, topLimitConstraint, centerXConstraint
-                ])
+                NSLayoutConstraint(item: window, attribute: .leading, relatedBy: .equal, toItem: self.bannerView, attribute: .leading, multiplier: 1, constant: -6).priority(950),
+                NSLayoutConstraint(item: window, attribute: .trailing, relatedBy: .equal, toItem: self.bannerView, attribute: .trailing, multiplier: 1, constant: 6).priority(950),
+                topConstraint,
+                NSLayoutConstraint(item: window, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: self.bannerView, attribute: .top, multiplier: 1, constant: -NotificationView.topHeight),
+                NSLayoutConstraint(item: window, attribute: .centerX, relatedBy: .equal, toItem: self.bannerView, attribute: .centerX, multiplier: 1, constant: 0)
+            ])
             
             window.layoutIfNeeded()
             topConstraint.constant = -NotificationView.topHeight

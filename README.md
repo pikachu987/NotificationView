@@ -126,9 +126,6 @@ NotificationView
 //Theme for NotificationView. There are dark mode and default mode and custom mode.
 notificationView.theme
 
-//The time at the top right of NotificationView.
-notificationView.date
-
 //The title of the NotificationView.
 notificationView.title
 

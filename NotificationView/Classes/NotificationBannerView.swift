@@ -41,98 +41,62 @@ class NotificationBannerView: UIView {
     weak var delegate: NotificationBannerViewDelegate?
     
     
-    // MARK: Lazy Properties
+    // MARK: UI Properties
     
-    lazy var containerView: UIView = {
+    let containerView: UIView = {
         let view = UIView()
-        self.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
-        let leadingConstraint = NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: -2)
-        let trailingConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 2)
-        let topConstraint = NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: -2)
-        let bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 2)
-        topConstraint.priority = UILayoutPriority(900)
-        bottomConstraint.priority = UILayoutPriority(900)
-        self.addConstraints([
-            leadingConstraint, trailingConstraint, topConstraint, bottomConstraint
-            ])
+        view.layer.cornerRadius = 12
+        view.layer.borderWidth = 0.1
+        view.layer.borderColor = UIColor(white: 253/255, alpha: 0.8).cgColor
         return view
     }()
     
-    lazy var iconImageView: UIImageView = {
+    let headerView: UIView = {
+        let view = UIView()
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let iconImageView: UIImageView = {
         let imageView = UIImageView()
-        self.containerView.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        let leadingConstraint = NSLayoutConstraint(item: self.containerView, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .leading, multiplier: 1, constant: -10)
-        let topConstraint = NSLayoutConstraint(item: self.containerView, attribute: .top, relatedBy: .equal, toItem: imageView, attribute: .top, multiplier: 1, constant: -10)
-        topConstraint.priority = UILayoutPriority(900)
-        self.containerView.addConstraints([
-            leadingConstraint, topConstraint
-            ])
-        let widthConstraint = NSLayoutConstraint(item: imageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 20)
-        let heightConstraint = NSLayoutConstraint(item: imageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 20)
-        heightConstraint.priority = UILayoutPriority(900)
-        imageView.addConstraints([widthConstraint, heightConstraint])
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 4
         return imageView
     }()
     
-    lazy var appNameLabel: UILabel = {
+    let appNameLabel: UILabel = {
         let label = UILabel()
-        self.containerView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        let leadingConstraint = NSLayoutConstraint(item: self.iconImageView, attribute: .trailing, relatedBy: .equal, toItem: label, attribute: .leading, multiplier: 1, constant: -8)
-        let centerYConstraint = NSLayoutConstraint(item: self.iconImageView, attribute: .centerY, relatedBy: .equal, toItem: label, attribute: .centerY, multiplier: 1, constant: 0)
-        self.containerView.addConstraints([
-            leadingConstraint, centerYConstraint
-            ])
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
-    lazy var dateLabel: UILabel = {
+    let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "now"
         label.setContentHuggingPriority(UILayoutPriority(250), for: .horizontal)
-        self.containerView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        let leadingConstraint = NSLayoutConstraint(item: self.appNameLabel, attribute: .trailing, relatedBy: .equal, toItem: label, attribute: .leading, multiplier: 1, constant: -8)
-        let centerYConstraint = NSLayoutConstraint(item: self.appNameLabel, attribute: .centerY, relatedBy: .equal, toItem: label, attribute: .centerY, multiplier: 1, constant: 0)
-        let trailingConstraint = NSLayoutConstraint(item: self.containerView, attribute: .trailing, relatedBy: .equal, toItem: label, attribute: .trailing, multiplier: 1, constant: 8)
-        self.containerView.addConstraints([
-            leadingConstraint, centerYConstraint, trailingConstraint
-            ])
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textAlignment = .right
         return label
     }()
     
-    lazy var textContainerView: NotificationTextContainerView = {
+    let textContainerView: NotificationTextContainerView = {
         let view = NotificationTextContainerView()
-        self.containerView.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
-        let leadingConstraint = NSLayoutConstraint(item: self.containerView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: -12)
-        let trailingConstraint = NSLayoutConstraint(item: self.containerView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 12)
-        let topConstraint = NSLayoutConstraint(item: self.iconImageView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: -8)
-        topConstraint.priority = UILayoutPriority(900)
-        self.containerView.addConstraints([
-            leadingConstraint, trailingConstraint, topConstraint
-            ])
+        view.backgroundColor = .clear
         return view
     }()
     
-    private lazy var bottomView: UIView = {
+    private let bottomView: UIView = {
         let view = UIView()
-        self.containerView.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
-        let topConstraint = NSLayoutConstraint(item: self.textContainerView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: -8)
-        let centerXConstraint = NSLayoutConstraint(item: self.containerView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0)
-        let bottomConstraint = NSLayoutConstraint(item: self.containerView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 5)
-        topConstraint.priority = UILayoutPriority(900)
-        bottomConstraint.priority = UILayoutPriority(900)
-        self.containerView.addConstraints([
-            topConstraint, centerXConstraint, bottomConstraint
-            ])
-        let widthConstraint = NSLayoutConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 35)
-        let heightConstraint = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 3.5)
-        heightConstraint.priority = UILayoutPriority(900)
-        view.addConstraints([widthConstraint, heightConstraint])
+        view.backgroundColor = UIColor(white: 215/255, alpha: 1)
+        view.layer.cornerRadius = 1.5
         return view
     }()
     
@@ -143,6 +107,7 @@ class NotificationBannerView: UIView {
         willSet {
             if let color = newValue.backgroundColor {
                 self.containerView.backgroundColor = color
+                self.headerView.backgroundColor = color
             }
             if let color = newValue.appNameColor {
                 self.appNameLabel.textColor = color
@@ -155,7 +120,13 @@ class NotificationBannerView: UIView {
     }
     
     var height: CGFloat {
-        return self.textContainerView.height + 58.5
+        return self.textContainerView.height + 18.5 + (self.isHeader ? 40 : 0)
+    }
+    
+    var isHeader: Bool = true {
+        didSet {
+            self.headerView.constraints(identifierType: .height).first?.constant = self.isHeader ? 40 : 0
+        }
     }
     
     private var logoImage: UIImage? = {
@@ -171,17 +142,12 @@ class NotificationBannerView: UIView {
     }()
     
     private var topConstraint: NSLayoutConstraint? {
-        return self.superview?.constraints.filter({
-            guard let secondItem = $0.secondItem else { return false }
-            return $0.firstAttribute == .top && $0.relation == .equal && Unmanaged.passUnretained(self).toOpaque() == Unmanaged.passUnretained(secondItem).toOpaque()
-        }).first
+        return self.superview?.constraints(identifierType: .top).first
     }
     
     private var timer: Timer?
     
     private var hideDuration: TimeInterval = 7
-    
-    private weak var widthConstraint: NSLayoutConstraint?
     
     private var notificationView: NotificationView?
     
@@ -192,29 +158,87 @@ class NotificationBannerView: UIView {
         
         self.backgroundColor = .clear
         
-        self.containerView.layer.cornerRadius = 12
-        self.containerView.layer.borderWidth = 0.1
-        self.containerView.layer.borderColor = UIColor(white: 253/255, alpha: 0.8).cgColor
+        self.addSubview(self.containerView)
+        self.containerView.addSubview(self.headerView)
+        self.containerView.addSubview(self.textContainerView)
+        self.containerView.addSubview(self.bottomView)
         
-        self.iconImageView.contentMode = .scaleAspectFill
-        self.iconImageView.clipsToBounds = true
-        self.iconImageView.layer.cornerRadius = 4
+        self.headerView.addSubview(self.iconImageView)
+        self.headerView.addSubview(self.appNameLabel)
+        self.headerView.addSubview(self.dateLabel)
         
-        self.appNameLabel.font = UIFont.systemFont(ofSize: 14)
+        // container
         
-        self.dateLabel.font = UIFont.systemFont(ofSize: 12)
-        self.dateLabel.textAlignment = .right
+        self.addConstraints([
+            NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: self.containerView, attribute: .leading, multiplier: 1, constant: -2),
+            NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.containerView, attribute: .trailing, multiplier: 1, constant: 2),
+            NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: self.containerView, attribute: .top, multiplier: 1, constant: -2).priority(900),
+            NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.containerView, attribute: .bottom, multiplier: 1, constant: 2).priority(900)
+        ])
         
-        self.textContainerView.backgroundColor = .clear
+        // header
+        
+        self.containerView.addConstraints([
+            NSLayoutConstraint(item: self.containerView, attribute: .leading, relatedBy: .equal, toItem: self.headerView, attribute: .leading, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.containerView, attribute: .trailing, relatedBy: .equal, toItem: self.headerView, attribute: .trailing, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.containerView, attribute: .top, relatedBy: .equal, toItem: self.headerView, attribute: .top, multiplier: 1, constant: 0)
+        ])
+        
+        self.headerView.addConstraints([
+            NSLayoutConstraint(item: self.headerView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 40).identifier(.height)
+        ])
+        
+        // textContainer
+        
+        self.containerView.addConstraints([
+            NSLayoutConstraint(item: self.headerView, attribute: .bottom, relatedBy: .equal, toItem: self.textContainerView, attribute: .top, multiplier: 1, constant: -8),//.priority(900),
+            NSLayoutConstraint(item: self.containerView, attribute: .leading, relatedBy: .equal, toItem: self.textContainerView, attribute: .leading, multiplier: 1, constant: -12),
+            NSLayoutConstraint(item: self.containerView, attribute: .trailing, relatedBy: .equal, toItem: self.textContainerView, attribute: .trailing, multiplier: 1, constant: 12)
+        ])
+        
+        // bottom
+        
+        self.containerView.addConstraints([
+            NSLayoutConstraint(item: self.textContainerView, attribute: .bottom, relatedBy: .equal, toItem: self.bottomView, attribute: .top, multiplier: 1, constant: -8).priority(900),
+            NSLayoutConstraint(item: self.containerView, attribute: .centerX, relatedBy: .equal, toItem: self.bottomView, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.containerView, attribute: .bottom, relatedBy: .equal, toItem: self.bottomView, attribute: .bottom, multiplier: 1, constant: 5).priority(900)
+        ])
+        
+        self.bottomView.addConstraints([
+            NSLayoutConstraint(item: self.bottomView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 35),
+            NSLayoutConstraint(item: self.bottomView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 3.5).priority(900)
+        ])
+        
+        // icon
+        
+        self.headerView.addConstraints([
+            NSLayoutConstraint(item: self.headerView, attribute: .leading, relatedBy: .equal, toItem: self.iconImageView, attribute: .leading, multiplier: 1, constant: -10),
+            NSLayoutConstraint(item: self.headerView, attribute: .top, relatedBy: .equal, toItem: self.iconImageView, attribute: .top, multiplier: 1, constant: -10).priority(900)
+        ])
+        
+        self.iconImageView.addConstraints([
+            NSLayoutConstraint(item: self.iconImageView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 20),
+            NSLayoutConstraint(item: self.iconImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 20)
+        ])
+        
+        // appName
+        
+        self.headerView.addConstraints([
+            NSLayoutConstraint(item: self.iconImageView, attribute: .trailing, relatedBy: .equal, toItem: self.appNameLabel, attribute: .leading, multiplier: 1, constant: -8),
+            NSLayoutConstraint(item: self.iconImageView, attribute: .centerY, relatedBy: .equal, toItem: self.appNameLabel, attribute: .centerY, multiplier: 1, constant: 0)
+        ])
+        
+        // date
+        
+        self.headerView.addConstraints([
+            NSLayoutConstraint(item: self.appNameLabel, attribute: .trailing, relatedBy: .equal, toItem: self.dateLabel, attribute: .leading, multiplier: 1, constant: -8),
+            NSLayoutConstraint(item: self.appNameLabel, attribute: .centerY, relatedBy: .equal, toItem: self.dateLabel, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: self.headerView, attribute: .trailing, relatedBy: .equal, toItem: self.dateLabel, attribute: .trailing, multiplier: 1, constant: 8)
+        ])
+        
+        self.addConstraint(NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 560).priority(UIScreen.main.bounds.width > 572 ? 970 : 930).identifier(.width))
+        
         self.theme = notificationView.theme
-        
-        self.bottomView.backgroundColor = UIColor(white: 215/255, alpha: 1)
-        self.bottomView.layer.cornerRadius = 1.5
-        
-        let widthConstraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 560)
-        widthConstraint.priority = UILayoutPriority(UIScreen.main.bounds.width > 572 ? 970 : 930)
-        self.addConstraint(widthConstraint)
-        self.widthConstraint = widthConstraint
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.orientationDidChange(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
@@ -257,10 +281,11 @@ class NotificationBannerView: UIView {
     
     // MARK: Method
     
-    func setEntity(_ hideDuration: TimeInterval) {
+    func setEntity(_ hideDuration: TimeInterval, appName: String?, appIcon: UIImage?, date: String?) {
         self.hideDuration = hideDuration
-        self.iconImageView.image = self.logoImage
-        self.appNameLabel.text = self.appName
+        self.iconImageView.image = appIcon ?? self.logoImage
+        self.appNameLabel.text = appName ?? self.appName
+        self.dateLabel.text = date ?? "now"
         
         self.makeShadow()
         
@@ -269,14 +294,20 @@ class NotificationBannerView: UIView {
         self.timer = Timer.scheduledTimer(timeInterval: hideDuration, target: self, selector: #selector(self.hideAction(_:)), userInfo: nil, repeats: false)
     }
     
-    func hide() {
+    func hide(animated: Bool = true) {
         self.timer?.invalidate()
         self.timer = nil
         self.delegate?.notificationBannerViewWillDisappear(self)
         self.topConstraint?.constant = self.bounds.height
-        UIView.animate(withDuration: 0.4, animations: {
-            UIApplication.shared.keyWindow?.layoutIfNeeded()
-        }) { (_) in
+        if animated {
+            UIView.animate(withDuration: 0.4, animations: {
+                UIApplication.shared.keyWindow?.layoutIfNeeded()
+            }) { (_) in
+                self.delegate?.notificationBannerViewDidDisappear(self)
+                self.removeFromSuperview()
+                self.notificationView = nil
+            }
+        } else {
             self.delegate?.notificationBannerViewDidDisappear(self)
             self.removeFromSuperview()
             self.notificationView = nil
@@ -292,7 +323,7 @@ class NotificationBannerView: UIView {
     
     @objc private func orientationDidChange(_ sender: NotificationCenter) {
         DispatchQueue.main.async {
-            self.widthConstraint?.priority = UILayoutPriority(UIScreen.main.bounds.width > 572 ? 970 : 930)
+            self.constraints(identifierType: .width).first?.priority = UILayoutPriority(UIScreen.main.bounds.width > 572 ? 970 : 930)
             self.superview?.constraints.filter({
                 guard let secondItem = $0.secondItem else { return false }
                 return Unmanaged.passUnretained(self).toOpaque() == Unmanaged.passUnretained(secondItem).toOpaque() && $0.firstAttribute == .top
