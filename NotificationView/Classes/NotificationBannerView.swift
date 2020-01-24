@@ -55,6 +55,7 @@ class NotificationBannerView: UIView {
     let headerView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -78,7 +79,8 @@ class NotificationBannerView: UIView {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "now"
-        label.setContentHuggingPriority(UILayoutPriority(250), for: .horizontal)
+        label.setContentHuggingPriority(UILayoutPriority(252), for: .horizontal)
+        label.setContentCompressionResistancePriority(UILayoutPriority(751), for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = .right
@@ -107,7 +109,6 @@ class NotificationBannerView: UIView {
         willSet {
             if let color = newValue.backgroundColor {
                 self.containerView.backgroundColor = color
-                self.headerView.backgroundColor = color
             }
             if let color = newValue.appNameColor {
                 self.appNameLabel.textColor = color
