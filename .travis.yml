@@ -1,0 +1,17 @@
+# references:
+# * https://www.objc.io/issues/6-build-tools/travis-ci/
+# * https://github.com/supermarin/xcpretty#usage
+
+osx_image: xcode12.2
+language: swift
+# cache: cocoapods
+podfile: Example/Podfile
+before_install:
+- gem install cocoapods # Since Travis is not always on latest version
+- pod install --project-directory=Example
+script:
+- xcodebuild -version
+- xcodebuild -showsdks
+- xcodebuild -list
+- set -o pipefail && xcodebuild test -workspace Example/NotificationView.xcworkspace -scheme NotificationView-Example -destination 'platform=iOS Simulator,name=iPhone 12,OS=14.2' | xcpretty
+- pod lib lint

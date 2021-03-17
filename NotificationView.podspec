@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NotificationView'
-  s.version          = '0.2.4'
+  s.version          = '0.2.5'
   s.summary          = 'iOS Notification View'
 
 # This description is used to generate tags and improve search results.
@@ -33,7 +33,7 @@ You can get delegates and callbacks for tap.
   s.source           = { :git => 'https://github.com/pikachu987/NotificationView.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = 'NotificationView/Classes/**/*'
   s.swift_version = '5.0'
